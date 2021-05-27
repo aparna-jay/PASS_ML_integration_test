@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button predict;
     private TextView one, two , result;
-    private float[] numbers = {1, 2, 3, 2, 3, 1, 1, 2, 3, 2, 3, 1, 1, 2, 3, 2, 3, 1, 2, 1, 2};
+    private float[] numbers = {1.00f, 1.00f, 2.00f, 1.00f, 1.00f, 1.00f, 2.00f, 1.00f, 1.00f, 2.00f, 1.00f, 1.00f, 1.00f, 1.00f, 2.00f, 1.00f, 2.00f, 1.00f, 1.00f, 1.00f, 1.00f};
     private String output;
 
     @Override
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
                     // Creates inputs for reference.
                     TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 21}, DataType.FLOAT32);
 
-                  //  ByteBuffer.allocate(4).putFloat(numbers[0]).array();
+                //      ByteBuffer.allocate(4).putFloat(numbers[0]).array();
                     byte[] byteArray= FloatArray2ByteArray(numbers);
                     ByteBuffer byteBuffer= ByteBuffer.wrap(byteArray);
 
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                     // Runs model inference and gets result.
                     Model.Outputs outputs = model.process(inputFeature0);
                     TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
-                    String converted= new String(byteBuffer.array(), "UTF-8");
+                //    String converted= new String(byteBuffer.array(), "UTF-8");
 
 
                     if (outputFeature0.getFloatArray()[0] > outputFeature0.getFloatArray()[1]){
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     else if(outputFeature0.getFloatArray()[1] > outputFeature0.getFloatArray()[0]){
                         output = "Not autistic";
-                  }
+                    }
 
                     one.setText("" + outputFeature0.getFloatArray()[0]);
                     two.setText("" + outputFeature0.getFloatArray()[1]) ;
@@ -78,8 +78,9 @@ public class MainActivity extends AppCompatActivity {
     }
     public static byte[] FloatArray2ByteArray(float[] values){
         ByteBuffer buffer= ByteBuffer.allocate(4 * values.length);
-        for (float value : values){
-            buffer.putFloat(value);
+        for (int i =0; i<values.length ; i++){
+            float val = values [i];
+            buffer.putFloat(val);
         }
         return buffer.array();
     }
